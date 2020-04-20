@@ -21,10 +21,9 @@ class Calculator implements ActionListener{
         
         br = new JMenuBar();
          
-        Edit = new JMenu("Edit");
-        Help = new JMenu("Help");
+        Edit = new JMenu("Select Type");
         br.add(Edit);
-        br.add(Help);
+
         
         i1 = new JMenuItem("Scientific");
         i2 = new JMenuItem("Exit");
@@ -571,6 +570,12 @@ class Calculator implements ActionListener{
                 mul.setEnabled(false);
                 add.setEnabled(false);
                 t1.setEnabled(false);
+                sin.setEnabled(false);
+                cos.setEnabled(false);
+                tan.setEnabled(false);
+                log.setEnabled(false);
+                fact.setEnabled(false);
+                pie.setEnabled(false);
                 i++;
             }
             else if(i==1) {
@@ -601,6 +606,12 @@ class Calculator implements ActionListener{
                 mul.setEnabled(true);
                 add.setEnabled(true);
                 t1.setEnabled(true);
+                sin.setEnabled(true);
+                cos.setEnabled(true);
+                tan.setEnabled(true);
+                log.setEnabled(true);
+                fact.setEnabled(true);
+                pie.setEnabled(true);
                 i--; 
             }
        }
