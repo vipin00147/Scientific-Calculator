@@ -1,36 +1,48 @@
 import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
+import java.awt.event.*;
+import java.lang.Math;
+import static java.lang.Math.*;
+import java.util.Locale;
 import javax.swing.*;
-import static javax.swing.JFrame.*;
 class Calculator implements ActionListener{
     JMenuBar br;
     JMenu Help,Edit,View;
-    JTextField t1;
-    JButton p_age,root,square,op_x,CE,C,X,div,b1,b2,b3,b4,b5,b6,b7,b8,b9,mul,add,b0,add_min,min,dec,equal,on_off;
-    
+    JTextField t1,t2,t3;
+    JButton p_age,root,square,op_x,CE,C,X,div,b1,b2,b3,b4,b5,b6,b7;
+    JButton b8,b9,mul,add,b0,add_min,min,dec,equal,on_off;
+    JButton sin,cos,tan,log,fact,pie,split;
+    JMenuItem i1,i2,i3,i4;
+    JLabel l1,l2;
     int opt = 0, flag1 = 1, flag=1, i=0;
     double n1 , n2 , n3 , total=0;
-    String oper = "";
-    void MenuBar() {
-        
-    }
+    String oper = "",oper2 = "";
+    JFrame f = new JFrame("Calculator");
     Calculator() {
-        JFrame f = new JFrame("Calculator");
+        
         br = new JMenuBar();
          
-        Help = new JMenu("Help");
         Edit = new JMenu("Edit");
-        View = new JMenu("View");
+        Help = new JMenu("Help");
         br.add(Edit);
-        br.add(View);
         br.add(Help);
+        
+        i1 = new JMenuItem("Scientific");
+        i2 = new JMenuItem("Exit");
+        i3 = new JMenuItem("Standard");
+        i4 = new JMenuItem("Split bill");
+        Edit.add(i3);
+        Edit.add(i1);
+        Edit.add(i4);
+        Edit.add(i2);
+        
         f.setJMenuBar(br);
         
-        t1 = new JTextField("");
-        t1.setFont(new Font("Arial",Font.PLAIN,20));
+        t1 = new JTextField(""); 
         t1.setBounds(10,10,221,30);
+        t1.setFont(new Font("Arial",Font.PLAIN,20));
+        t1.setHorizontalAlignment(JTextField.RIGHT);
         f.add(t1);
+        
         //1st Row...
         p_age =new JButton("%");
         p_age.setBounds(10,40,55,30);
@@ -109,16 +121,41 @@ class Calculator implements ActionListener{
         equal = new JButton("=");
         equal.setBounds(175, 190, 55, 30);
         f.add(equal);
+        sin = new JButton("sin");
+        sin.setBounds(240, 40, 55 ,30);
+        cos = new JButton("cos");
+        cos.setBounds(295, 40, 55, 30);
+        tan = new JButton("tan");
+        tan.setBounds(240, 70, 55, 30);
+        log = new JButton("log");
+        log.setBounds(295, 70, 55, 30);
+        fact =  new JButton("x!");
+        fact.setBounds(240, 100, 55, 30);
+        pie = new JButton("π");
+        pie.setBounds(295, 100, 55, 30);
+        l1 = new JLabel("Amount : ");
+        l1.setBounds(10, 120, 100,20);
+        l2 = new JLabel("People : ");
+        l2.setBounds(10, 145, 100, 20);
+        t2 = new JTextField("");
+        t2.setBounds(70, 120, 100, 20);
+        t3 = new JTextField("");
+        t3.setBounds(70, 145, 100, 20);
+        split = new JButton("Split");
+        split.setBounds(80, 180, 70, 30);
+        
         on_off = new JButton("On");
         on_off.setBounds(65, 220,110 ,30);
         f.add(on_off);   
         
+      
         f.setResizable(false);
-        f.setDefaultCloseOperation(EXIT_ON_CLOSE);  
+        f.setDefaultCloseOperation(f.EXIT_ON_CLOSE);  
         f.setLayout(null);
         f.setSize(250,310);
         f.setVisible(true);
     }
+         
     void add_actionlistner() {
         p_age.addActionListener(this);
         root.addActionListener(this);
@@ -145,14 +182,22 @@ class Calculator implements ActionListener{
         mul.addActionListener(this);
         add.addActionListener(this);
         on_off.addActionListener(this);
+        i1.addActionListener(this);
+        i2.addActionListener(this);
+        i3.addActionListener(this);
+        i4.addActionListener(this);
+        sin.addActionListener(this);
+        cos.addActionListener(this);
+        tan.addActionListener(this);
+        log.addActionListener(this);
+        fact.addActionListener(this);
+        pie.addActionListener(this);
+        split.addActionListener(this);
     }
         @Override
     public void actionPerformed(ActionEvent obj) {
         String str = "" , txt = "";
-        if(i == 0) {
-            
-        }
-        
+      
         if(obj.getSource() == b0) {
             str = String.valueOf(t1.getText())+0;
             txt = txt + str;
@@ -347,6 +392,154 @@ class Calculator implements ActionListener{
             n1=-n1;
             oper = String.valueOf("")+n1;
             t1.setText(oper);
+        }
+        else if(obj.getSource() == sin) {
+            oper = t1.getText();
+            double n = Double.parseDouble(oper);
+            double rad = toRadians(n);
+            double val = sin(rad);
+            oper = String.valueOf("")+val;
+            t1.setText(oper);
+        }
+        else if(obj.getSource() == cos) {
+            oper = t1.getText();
+            double n = Double.parseDouble(oper);
+            double rad = toRadians(n);
+            double val = cos(rad);
+            val = round(val);
+            oper = String.valueOf("")+val;
+            t1.setText(oper);
+        }
+        else if(obj.getSource() == tan) {
+            oper = t1.getText();
+            double n = Double.parseDouble(oper);
+            double rad = toRadians(n);
+            double val = tan(rad);
+            val = round(val);
+            oper = String.valueOf("")+val;
+            t1.setText(oper);
+        }
+        else if(obj.getSource() == log) {
+            double n;
+            oper = t1.getText();
+            n = Double.parseDouble(oper);
+            double l =  log(n);
+            oper = String.valueOf("")+l;
+            t1.setText(oper);
+        }
+        else if(obj.getSource() == fact) {
+            int fact=1;
+            double n;
+            oper = t1.getText();
+            n = Double.parseDouble(oper);
+            for (int i = 1; i <= n; i++) {
+                fact = fact * i;
+            }
+            oper = String.valueOf("")+fact;
+            t1.setText(oper);
+        }
+        else if(obj.getSource() == pie) {
+            t1.setText("3.141592653589793238");
+        }
+        else if(obj.getSource() == split) {
+            double num1,num2;
+            oper2 = t2.getText();
+            oper = t3.getText();
+            num1 = Double.parseDouble(oper2);
+            num2 = Double.parseDouble(oper);
+            oper = String.valueOf("")+num1/num2;
+            t1.setText(oper);
+        }
+        else if(obj.getSource() == i1) {
+            f.setSize(370, 310);
+            t1.setBounds(10,10,340,30);
+            f.add(sin); f.add(cos); f.add(tan);
+            f.add(log); f.add(fact); f.add(pie);
+            p_age.setVisible(true);
+            root.setVisible(true);
+            square.setVisible(true);
+            op_x.setVisible(true);
+            CE.setVisible(true);
+            div.setVisible(true);
+            b1.setVisible(true);
+            b2.setVisible(true);
+            b3.setVisible(true);
+            b4.setVisible(true);
+            b5.setVisible(true);
+            b6.setVisible(true);
+            b7.setVisible(true);
+            b8.setVisible(true);
+            b9.setVisible(true);
+            mul.setVisible(true);
+            add.setVisible(true);
+            b0.setVisible(true);
+            add_min.setVisible(true);
+            min.setVisible(true);
+            dec.setVisible(true);
+            equal.setVisible(true);
+            on_off.setVisible(true);
+        }
+        else if(obj.getSource() == i3) {
+            f.setSize(245,310);
+            t1.setBounds(10,10,221,30);
+            p_age.setVisible(true);
+            root.setVisible(true);
+            square.setVisible(true);
+            op_x.setVisible(true);
+            CE.setVisible(true);
+            div.setVisible(true);
+            b1.setVisible(true);
+            b2.setVisible(true);
+            b3.setVisible(true);
+            b4.setVisible(true);
+            b5.setVisible(true);
+            b6.setVisible(true);
+            b7.setVisible(true);
+            b8.setVisible(true);
+            b9.setVisible(true);
+            mul.setVisible(true);
+            add.setVisible(true);
+            b0.setVisible(true);
+            add_min.setVisible(true);
+            min.setVisible(true);
+            dec.setVisible(true);
+            equal.setVisible(true);
+            on_off.setVisible(true);
+        }
+        else if(obj.getSource() == i2) {
+           System.exit(0);
+        }
+        else if(obj.getSource() == i4) {
+            f.setSize(245,310);
+            t1.setBounds(10,10,221,30);
+            p_age.setVisible(false);
+            root.setVisible(false);
+            square.setVisible(false);
+            op_x.setVisible(false);
+            CE.setVisible(false);
+            div.setVisible(false);
+            b1.setVisible(false);
+            b2.setVisible(false);
+            b3.setVisible(false);
+            b4.setVisible(false);
+            b5.setVisible(false);
+            b6.setVisible(false);
+            b7.setVisible(false);
+            b8.setVisible(false);
+            b9.setVisible(false);
+            mul.setVisible(false);
+            add.setVisible(false);
+            b0.setVisible(false);
+            add_min.setVisible(false);
+            min.setVisible(false);
+            dec.setVisible(false);
+            equal.setVisible(false);
+            on_off.setVisible(false);
+            f.add(l1);
+            f.add(t2);
+            f.add(l2);
+            f.add(t3);
+            f.add(split);
         }
         else if(obj.getSource() == on_off) {
             
