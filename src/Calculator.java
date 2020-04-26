@@ -2,36 +2,34 @@ import java.awt.*;
 import java.awt.event.*;
 import java.lang.Math;
 import static java.lang.Math.*;
-import java.util.Locale;
+
 import javax.swing.*;
 class Calculator implements ActionListener{
     JMenuBar br;
     JMenu Help,Edit,View;
-    JTextField t1,t2,t3;
+    JTextField t1,t2,t3,t4;
     JButton p_age,root,square,op_x,CE,C,X,div,b1,b2,b3,b4,b5,b6,b7;
-    JButton b8,b9,mul,add,b0,add_min,min,dec,equal,on_off;
+    JButton b8,b9,mul,add,b0,add_min,min,dec,equal,calc_per;
     JButton sin,cos,tan,log,fact,pie,split;
-    JMenuItem i1,i2,i3,i4;
-    JLabel l1,l2;
+    JMenuItem i1,i2,i3,i4,i5;
+    JLabel l1,l2,l3,per,Total,result;
     int opt = 0, flag1 = 1, flag=1, i=0;
     double n1 , n2 , n3 , total=0;
     String oper = "",oper2 = "";
     JFrame f = new JFrame("Calculator");
     Calculator() {
-        
         br = new JMenuBar();
-         
         Edit = new JMenu("Select Type");
         br.add(Edit);
-
-        
         i1 = new JMenuItem("Scientific");
         i2 = new JMenuItem("Exit");
         i3 = new JMenuItem("Standard");
         i4 = new JMenuItem("Split bill");
+        i5 = new JMenuItem("Percentage");
         Edit.add(i3);
         Edit.add(i1);
         Edit.add(i4);
+        Edit.add(i5);
         Edit.add(i2);
         
         f.setJMenuBar(br);
@@ -62,7 +60,7 @@ class Calculator implements ActionListener{
         C = new JButton("C");
         C.setBounds(65, 70, 55, 30);
         f.add(C);
-        X = new JButton("X");
+        X = new JButton("←");
         X.setBounds(120, 70, 55, 30);
         f.add(X);
         div = new JButton("÷");
@@ -118,6 +116,7 @@ class Calculator implements ActionListener{
         dec.setBounds(120, 190, 55, 30);
         f.add(dec);
         equal = new JButton("=");
+        calc_per = new JButton("=");
         equal.setBounds(175, 190, 55, 30);
         f.add(equal);
         sin = new JButton("sin");
@@ -133,29 +132,34 @@ class Calculator implements ActionListener{
         pie = new JButton("π");
         pie.setBounds(295, 100, 55, 30);
         l1 = new JLabel("Amount : ");
-        l1.setBounds(10, 120, 100,20);
+        l1.setBounds(10, 70, 100,20);
         l2 = new JLabel("People : ");
-        l2.setBounds(10, 145, 100, 20);
+        l2.setBounds(10, 100, 100, 20);
         t2 = new JTextField("");
-        t2.setBounds(70, 120, 100, 20);
+        t2.setBounds(70, 70, 100, 20);
         t3 = new JTextField("");
-        t3.setBounds(70, 145, 100, 20);
+        t3.setBounds(70, 100, 100, 20);
+        t4 = new JTextField("");
+                
         split = new JButton("Split");
-        split.setBounds(80, 180, 70, 30);
+        split.setBounds(80, 150, 70, 30);
+        per = new JLabel("Percentage(%)");
+        Total = new JLabel("Total");
+        result = new JLabel("Result");
+        l3 = new JLabel("Net Amount :");
+        l3.setBounds(10, 75, 100, 20);
+        f.add(l3);
         
-        on_off = new JButton("On");
-        on_off.setBounds(65, 220,110 ,30);
-        f.add(on_off);   
-        
-      
+        f.setLocationRelativeTo(null);
         f.setResizable(false);
         f.setDefaultCloseOperation(f.EXIT_ON_CLOSE);  
         f.setLayout(null);
-        f.setSize(250,310);
+        f.setSize(250,290);
         f.setVisible(true);
     }
          
     void add_actionlistner() {
+        calc_per.addActionListener(this);
         p_age.addActionListener(this);
         root.addActionListener(this);
         square.addActionListener(this);
@@ -180,11 +184,11 @@ class Calculator implements ActionListener{
         equal.addActionListener(this);
         mul.addActionListener(this);
         add.addActionListener(this);
-        on_off.addActionListener(this);
         i1.addActionListener(this);
         i2.addActionListener(this);
         i3.addActionListener(this);
         i4.addActionListener(this);
+        i5.addActionListener(this);
         sin.addActionListener(this);
         cos.addActionListener(this);
         tan.addActionListener(this);
@@ -192,6 +196,9 @@ class Calculator implements ActionListener{
         fact.addActionListener(this);
         pie.addActionListener(this);
         split.addActionListener(this);
+        t1.addActionListener(this);
+        t2.addActionListener(this);
+        t3.addActionListener(this);
     }
         @Override
     public void actionPerformed(ActionEvent obj) {
@@ -450,10 +457,22 @@ class Calculator implements ActionListener{
             t1.setText(oper);
         }
         else if(obj.getSource() == i1) {
-            f.setSize(370, 310);
+            f.setSize(370, 290);
+            t1.setText("");
             t1.setBounds(10,10,340,30);
             f.add(sin); f.add(cos); f.add(tan);
             f.add(log); f.add(fact); f.add(pie);
+            C.setBounds(65, 70, 55, 30);       
+            X.setBounds(120, 70, 55, 30);
+            dec.setBounds(120, 190, 55, 30);
+            t1.setVisible(true);
+            t2.setVisible(false);
+            t3.setVisible(false);
+            X.setVisible(true);
+            C.setVisible(true);
+            Total.setVisible(false);
+            per.setVisible(false);
+            result.setVisible(false);
             p_age.setVisible(true);
             root.setVisible(true);
             square.setVisible(true);
@@ -476,11 +495,21 @@ class Calculator implements ActionListener{
             min.setVisible(true);
             dec.setVisible(true);
             equal.setVisible(true);
-            on_off.setVisible(true);
         }
         else if(obj.getSource() == i3) {
-            f.setSize(245,310);
+            f.setSize(245,290);
+            t1.setText("");
             t1.setBounds(10,10,221,30);
+            C.setBounds(65, 70, 55, 30);       
+            X.setBounds(120, 70, 55, 30);
+            dec.setBounds(120, 190, 55, 30);
+            t1.setVisible(true);
+            X.setVisible(true);
+            C.setVisible(true);
+            Total.setVisible(false);
+            per.setVisible(false);
+            calc_per.setVisible(false);
+            result.setVisible(false);
             p_age.setVisible(true);
             root.setVisible(true);
             square.setVisible(true);
@@ -503,24 +532,40 @@ class Calculator implements ActionListener{
             min.setVisible(true);
             dec.setVisible(true);
             equal.setVisible(true);
-            on_off.setVisible(true);
         }
         else if(obj.getSource() == i2) {
            System.exit(0);
         }
         else if(obj.getSource() == i4) {
-            f.setSize(245,310);
             t1.setBounds(10,10,221,30);
+            f.setSize(245,290);
+            t1.setText("");
+            t2.setText("");
+            t3.setText("");
+            Total.setVisible(false);
+            l3.setVisible(false);
+            per.setVisible(false);
+            result.setVisible(false);
+            l1.setVisible(true);
+            l2.setVisible(true);
+            t1.setVisible(true);
+            C.setVisible(false);
+            X.setVisible(false);
+            t2.setVisible(true);
+            t3.setVisible(true);
+            split.setVisible(true);
             p_age.setVisible(false);
             root.setVisible(false);
             square.setVisible(false);
             op_x.setVisible(false);
             CE.setVisible(false);
+            calc_per.setVisible(false);
             div.setVisible(false);
             b1.setVisible(false);
             b2.setVisible(false);
             b3.setVisible(false);
             b4.setVisible(false);
+            t4.setVisible(false);
             b5.setVisible(false);
             b6.setVisible(false);
             b7.setVisible(false);
@@ -533,88 +578,99 @@ class Calculator implements ActionListener{
             min.setVisible(false);
             dec.setVisible(false);
             equal.setVisible(false);
-            on_off.setVisible(false);
+            t2.setBounds(70, 70, 100, 20);
+            t3.setBounds(70, 100, 100, 20);
+            
             f.add(l1);
             f.add(t2);
             f.add(l2);
             f.add(t3);
             f.add(split);
         }
-        else if(obj.getSource() == on_off) {
+        else if(obj.getSource() == calc_per) {
+            Double amount;
+            oper = t1.getText();
+            oper2 = t2.getText();
+            n1 = Double.parseDouble(oper);
+            n2 = Double.parseDouble(oper2);
+            total = (n1/100)*n2;
+            amount = n2 - total;
+            oper = String.valueOf("")+total;
+            t3.setText(oper);
+            str = String.valueOf("")+amount;
+            t4.setText(str);         
+        }
+        else if(obj.getSource() == i5) {
+            f.setSize(245,290);
+            t1.setText("");
+            t2.setText("");
+            t3.setText("");
+            l3.setVisible(true);
+            p_age.setVisible(false);
+            root.setVisible(false);
+            square.setVisible(false);
+            op_x.setVisible(false);
+            CE.setVisible(false);
+            div.setVisible(false);
+            mul.setVisible(false);
+            add.setVisible(false);
+            add_min.setVisible(false);
+            min.setVisible(false);
+            equal.setVisible(false);
+            split.setVisible(false);
+            Total.setVisible(true);
+            per.setVisible(true);
+            result.setVisible(true);
+            C.setVisible(true);
+            X.setVisible(true);
+            l1.setVisible(false);
+            l2.setVisible(false);
+            t1.setVisible(true);
+            t2.setVisible(true);
+            t3.setVisible(true);
+            split.setVisible(true);
+            calc_per.setVisible(true);
+            b1.setVisible(true);
+            b2.setVisible(true);
+            b3.setVisible(true);
+            b4.setVisible(true);
+            b5.setVisible(true);
+            b6.setVisible(true);
+            b7.setVisible(true);
+            b8.setVisible(true);
+            b9.setVisible(true);
+            b0.setVisible(true);
+            dec.setVisible(true);
+          
+            per.setBounds(10, 5, 100, 15);
+            Total.setBounds(10, 30, 100, 15);
+            result.setBounds(10, 55, 100, 15);
+            calc_per.setBounds(175, 190, 55, 30);
+            C.setBounds(175, 130, 55, 30);
+            X.setBounds(175, 160, 55, 30);
+            dec.setBounds(175, 100, 55, 30);
+            f.add(t4);
+            f.add(per);
+            f.add(Total);
+            f.add(result);
+            f.add(calc_per);
+            f.add(dec);
+            t1.setBounds(130, 5, 100, 20);
+            t2.setBounds(130, 30, 100, 20);
+            t3.setBounds(130, 55, 100, 20);
+            t4.setBounds(130, 80, 100, 20);
+            t2.setFont(new Font("Arial",Font.PLAIN,20));
+            t3.setFont(new Font("Arial",Font.PLAIN,20));
+            t4.setFont(new Font("Arial",Font.PLAIN,20));
+            t2.setHorizontalAlignment(JTextField.RIGHT);
+            t3.setHorizontalAlignment(JTextField.RIGHT);
+            t4.setHorizontalAlignment(JTextField.RIGHT);
+            f.add(t1);
+            f.add(t2);
+            f.add(t3);
             
-            if(i==0){
-                on_off.setText("Off");
-                on_off.setBackground(Color.RED);
-                p_age.setEnabled(false);
-                root.setEnabled(false);
-                square.setEnabled(false);
-                op_x.setEnabled(false);
-                CE.setEnabled(false);
-                C.setEnabled(false);
-                X.setEnabled(false);
-                div.setEnabled(false);
-                b1.setEnabled(false);
-                b2.setEnabled(false);
-                b3.setEnabled(false);
-                b4.setEnabled(false);
-                b5.setEnabled(false);
-                b6.setEnabled(false);
-                b7.setEnabled(false);
-                b8.setEnabled(false);
-                b9.setEnabled(false);
-                b0.setEnabled(false);
-                add_min.setEnabled(false);
-                min.setEnabled(false);
-                dec.setEnabled(false);
-                equal.setEnabled(false);
-                mul.setEnabled(false);
-                add.setEnabled(false);
-                t1.setEnabled(false);
-                sin.setEnabled(false);
-                cos.setEnabled(false);
-                tan.setEnabled(false);
-                log.setEnabled(false);
-                fact.setEnabled(false);
-                pie.setEnabled(false);
-                i++;
-            }
-            else if(i==1) {
-                on_off.setText("On");
-                on_off.setBackground(Color.GREEN);
-                p_age.setEnabled(true);
-                root.setEnabled(true);
-                square.setEnabled(true);
-                op_x.setEnabled(true);
-                CE.setEnabled(true);
-                C.setEnabled(true);
-                X.setEnabled(true);
-                div.setEnabled(true);
-                b1.setEnabled(true);
-                b2.setEnabled(true);
-                b3.setEnabled(true);
-                b4.setEnabled(true);
-                b5.setEnabled(true);
-                b6.setEnabled(true);
-                b7.setEnabled(true);
-                b8.setEnabled(true);
-                b9.setEnabled(true);
-                b0.setEnabled(true);
-                add_min.setEnabled(true);
-                min.setEnabled(true);
-                dec.setEnabled(true);
-                equal.setEnabled(true);
-                mul.setEnabled(true);
-                add.setEnabled(true);
-                t1.setEnabled(true);
-                sin.setEnabled(true);
-                cos.setEnabled(true);
-                tan.setEnabled(true);
-                log.setEnabled(true);
-                fact.setEnabled(true);
-                pie.setEnabled(true);
-                i--; 
-            }
-       }
+        }
+        
         else if(obj.getSource() == equal) {
             switch(opt){
                 case 1:{
